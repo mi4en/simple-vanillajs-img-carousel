@@ -4,9 +4,14 @@
   box-sizing: border-box;
 }
 
+img {
+  width: 1200px;
+  height: 500px;
+}
+
 .carousel-container {
   width: 60%;
-  margin: auto;
+  margin: 1rem auto;
   border: 1px solid #333;
   overflow: hidden;
   position: relative;
