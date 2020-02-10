@@ -3,6 +3,9 @@ const carouselImages = document.querySelectorAll('.carousel-slide img');
 const imagesLineup = document.querySelector('.images-lineup');
 let smallImages = [];
 
+// Use id to assign each image in the small image list below the big image
+let id = 0;
+
 //Buttons
 const prevBtn = document.querySelector('#prevBtn');
 const nextBtn = document.querySelector('#nextBtn');
@@ -57,6 +60,22 @@ function showSmallImages() {
     if (imgId !== 'firstClone' && imgId !== 'lastClone') {
       const smallImage = document.createElement('img');
       smallImage.setAttribute('src', img.getAttribute('src'));
+
+      // increment id;
+      id++;
+      // set id to each image so we can target them
+      smallImage.setAttribute('id', id);
+
+      // add event listener on click when we click on image from the lineup
+      smallImage.addEventListener('click', () => {
+        // set the counter to the id so that we scroll the main image
+        counter = smallImage.getAttribute('id');
+        carouselSlide.style.transition = 'transform 0.5s ease-in-out';
+        carouselSlide.style.transform = `translateX(${-size * counter}px)`;
+
+        focusPreviewedImg();
+      });
+
       imagesLineup.appendChild(smallImage);
     }
   });
@@ -71,8 +90,4 @@ function focusPreviewedImg() {
   });
 
   smallImages[counter - 1].classList.add('previewed');
-}
-
-function selectImage(img) {
-  counter = counter + 1;
 }
