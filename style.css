@@ -57,22 +57,24 @@ img {
 
 .images-lineup {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   width: 60%;
   margin: 1rem auto;
 }
 
 .images-lineup img {
-  width: 120px;
+  width: 140px;
   height: 80px;
   margin-right: 5px;
   border: 1px solid purple;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+  margin: 2px 2px;
 }
 
 .previewed {
-  border: 3px solid purple !important;
+  border: 3px solid blue !important;
   transform: scale(1.3);
-  margin: 0 25px 0 20px !important;
+  /* margin: 25px 25px 25px 20px !important; */
 }
