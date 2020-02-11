@@ -16,8 +16,6 @@ const nextBtn = document.querySelector('#nextBtn');
 let counter = 0;
 const size = carouselImages[0].clientWidth;
 
-// carouselSlide.style.transform = `translateX(${-size * counter}px)`;
-
 // Event listeners
 document.addEventListener('DOMContentLoaded', () => {
   showSmallImages();
