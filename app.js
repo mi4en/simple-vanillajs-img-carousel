@@ -25,21 +25,29 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 nextBtn.addEventListener('click', () => {
+  // The if else is used only to catch when we go from last to first so we speed the transition
   if (counter >= carouselImages.length - 1) {
-    counter = -1;
+    counter = 0;
+    carouselSlide.style.transition = 'transform 0.2s ease-in-out';
+    carouselSlide.style.transform = `translateX(${-size * counter}px)`;
+  } else {
+    carouselSlide.style.transition = 'transform 0.5s ease-in-out';
+    counter++;
+    carouselSlide.style.transform = `translateX(${-size * counter}px)`;
   }
-  carouselSlide.style.transition = 'transform 0.5s ease-in-out';
-  counter++;
-  carouselSlide.style.transform = `translateX(${-size * counter}px)`;
 });
 
 prevBtn.addEventListener('click', () => {
+  // The if else is used only to catch when we go from first to last so we speed the transition
   if (counter <= 0) {
-    counter = carouselImages.length;
+    counter = carouselImages.length - 1;
+    carouselSlide.style.transition = 'transform 0.2s ease-in-out';
+    carouselSlide.style.transform = `translateX(${-size * counter}px)`;
+  } else {
+    carouselSlide.style.transition = 'transform 0.5s ease-in-out';
+    counter--;
+    carouselSlide.style.transform = `translateX(${-size * counter}px)`;
   }
-  carouselSlide.style.transition = 'transform 0.5s ease-in-out';
-  counter--;
-  carouselSlide.style.transform = `translateX(${-size * counter}px)`;
 });
 
 carouselSlide.addEventListener('transitionrun', () => {
