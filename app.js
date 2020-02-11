@@ -1,20 +1,22 @@
 const carouselSlide = document.querySelector('.carousel-slide');
 const carouselImages = document.querySelectorAll('.carousel-slide img');
 const imagesLineup = document.querySelector('.images-lineup');
+
+// Init empty arr to hold the appended images for the lineup
 let smallImages = [];
 
 // Use id to assign each image in the small image list below the big image
-let id = 0;
+let id = -1;
 
 //Buttons
 const prevBtn = document.querySelector('#prevBtn');
 const nextBtn = document.querySelector('#nextBtn');
 
 //Counter
-let counter = 1;
+let counter = 0;
 const size = carouselImages[0].clientWidth;
 
-carouselSlide.style.transform = `translateX(${-size * counter}px)`;
+// carouselSlide.style.transform = `translateX(${-size * counter}px)`;
 
 // Event listeners
 document.addEventListener('DOMContentLoaded', () => {
@@ -23,61 +25,49 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 nextBtn.addEventListener('click', () => {
-  if (counter >= carouselImages.length - 1) return;
+  if (counter >= carouselImages.length - 1) {
+    counter = -1;
+  }
   carouselSlide.style.transition = 'transform 0.5s ease-in-out';
   counter++;
   carouselSlide.style.transform = `translateX(${-size * counter}px)`;
 });
 
 prevBtn.addEventListener('click', () => {
-  if (counter <= 0) return;
+  if (counter <= 0) {
+    counter = carouselImages.length;
+  }
   carouselSlide.style.transition = 'transform 0.5s ease-in-out';
   counter--;
   carouselSlide.style.transform = `translateX(${-size * counter}px)`;
 });
 
-carouselSlide.addEventListener('transitionend', () => {
-  if (carouselImages[counter].id === 'lastClone') {
-    carouselSlide.style.transition = 'none';
-    counter = carouselImages.length - 2;
-    carouselSlide.style.transform = `translateX(${-size * counter}px)`;
-  }
-
-  if (carouselImages[counter].id === 'firstClone') {
-    carouselSlide.style.transition = 'none';
-    counter = carouselImages.length - counter;
-    carouselSlide.style.transform = `translateX(${-size * counter}px)`;
-  }
-
+carouselSlide.addEventListener('transitionrun', () => {
   focusPreviewedImg();
 });
 
 // Functions
 function showSmallImages() {
   carouselImages.forEach(img => {
-    const imgId = img.getAttribute('id');
+    const smallImage = document.createElement('img');
+    smallImage.setAttribute('src', img.getAttribute('src'));
 
-    if (imgId !== 'firstClone' && imgId !== 'lastClone') {
-      const smallImage = document.createElement('img');
-      smallImage.setAttribute('src', img.getAttribute('src'));
+    // increment id;
+    id++;
+    // set id to each image so we can target them
+    smallImage.setAttribute('id', id);
 
-      // increment id;
-      id++;
-      // set id to each image so we can target them
-      smallImage.setAttribute('id', id);
+    // add event listener on click when we click on image from the lineup
+    smallImage.addEventListener('click', () => {
+      // set the counter to the id so that we scroll the main image
+      counter = smallImage.getAttribute('id');
+      carouselSlide.style.transition = 'transform 0.5s ease-in-out';
+      carouselSlide.style.transform = `translateX(${-size * counter}px)`;
 
-      // add event listener on click when we click on image from the lineup
-      smallImage.addEventListener('click', () => {
-        // set the counter to the id so that we scroll the main image
-        counter = smallImage.getAttribute('id');
-        carouselSlide.style.transition = 'transform 0.5s ease-in-out';
-        carouselSlide.style.transform = `translateX(${-size * counter}px)`;
+      focusPreviewedImg();
+    });
 
-        focusPreviewedImg();
-      });
-
-      imagesLineup.appendChild(smallImage);
-    }
+    imagesLineup.appendChild(smallImage);
   });
 
   smallImages = document.querySelectorAll('.images-lineup img');
@@ -89,5 +79,5 @@ function focusPreviewedImg() {
     img.classList.remove('previewed');
   });
 
-  smallImages[counter - 1].classList.add('previewed');
+  smallImages[counter].classList.add('previewed');
 }
